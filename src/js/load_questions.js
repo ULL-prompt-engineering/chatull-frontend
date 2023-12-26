@@ -17,8 +17,8 @@
 </div>
 */
 
-function loadQuestion(questionData) {
-    if (questionData.question && questionData.answer) {
+function loadQuestion(questionData, isQuestion) {
+    if (isQuestion) {
         let messageContainer = document.createElement("div");
         messageContainer.setAttribute("class", "message-container user-message flex justify-end");
         let userMessage = document.createElement("div");
@@ -30,12 +30,14 @@ function loadQuestion(questionData) {
         userMessage.appendChild(message);
         messageContainer.appendChild(userMessage);
         document.querySelector("div.chat-container").appendChild(messageContainer);
-        messageContainer = document.createElement("div");
+        messageContainer.scrollIntoView();
+    } else {
+        let messageContainer = document.createElement("div");
         messageContainer.setAttribute("class", "message-container bot-message flex");
         let botMessage = document.createElement("div");
         botMessage.setAttribute("class", "BotMessage bg-purple-600 rounded-lg p-2 mb-5 font-bold");
         botMessage.innerHTML = "ChatUll";
-        message = document.createElement("div");
+        let message = document.createElement("div");
         message.setAttribute("class", "message bg-gray-300 text-gray-700 rounded-lg p-2 mt-2");
         message.innerHTML = questionData.answer;
         botMessage.appendChild(message);
@@ -50,7 +52,8 @@ let questions = localStorage.getItem(selector.value);
 if (questions) {
     questions = JSON.parse(questions);
     questions.forEach((question) => {
-        loadQuestion(question);
+        loadQuestion(question, true);
+        loadQuestion(question, false);
     });
 }
 
@@ -61,7 +64,8 @@ selector.addEventListener("change", function(event) {
     if (questions) {
         questions = JSON.parse(questions);
         questions.forEach((question) => {
-            loadQuestion(question);
+            loadQuestion(question, true);
+            loadQuestion(question, false);
         });
     }
 });

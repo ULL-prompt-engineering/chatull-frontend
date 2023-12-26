@@ -13,7 +13,8 @@ function obtenerRespuesta(answer, input, selector, button) {
   } else {
       url = 'http://127.0.0.1:5000/get_teacher_answer?question=' + question;
   }
-  console.log(url);
+  loadQuestion({"question": question.replace(/%20/g, " ")}, true);
+  input.scrollIntoView();
   fetch(url)
   .then(response => response.json())
   .then(data => {
@@ -30,14 +31,16 @@ function obtenerRespuesta(answer, input, selector, button) {
             questions.push(questionObject);
             localStorage.setItem(selector.value, JSON.stringify(questions));
       }
-        loadQuestion(questionObject);
+        loadQuestion(questionObject, false);
         input.scrollIntoView();
         button.disabled = false;
         button.innerHTML = "Enviar";
   })
   .catch(error => {
       console.error('Error:', error);
-      answer.innerHTML = "Error al obtener la respuesta.";
+      button.disabled = false;
+      button.innerHTML = "Enviar";
+      loadQuestion({"answer": "Error al obtener respuesta."}, false);
   });
 }
 
