@@ -1,0 +1,24 @@
+---
+type dataDocument = {
+    name: string
+}
+let res = await fetch('http://127.0.0.1:5000/documents')
+let data = await res.json() as dataDocument[]
+---
+
+<div class="flex flex-col items-center justify-center">
+    <div class="w-full h-32 flex items-center justify-center space-x-4"> <!-- Ajusta las clases "w-64" y "h-32" al tamaño deseado -->
+        <form class="bg-slate-600 p-5 rounded shadow-md">
+            <select id="opciones" name="opciones" class="bg-slate-600 text-white font-bold subject">
+                {data.map(doc => (
+                    <option value={doc.name}>{doc.name}</option>
+                ))}
+            </select>
+        </form>
+        <input type="text" class="w-3/5 border-2 border-gray-300 p-5 rounded input-question bg-slate-600 text-white" placeholder="¿Cómo se calcula la calificación final por evaluación continua?">
+        <button class="bg-purple-700 hover:bg-purple-800 text-white font-bold py-2 px-4 rounded-full question">Enviar</button>
+    </div>
+    <div class="bg-gray-800 mt-20 py-4 px-4 rounded mr-30 ml-30	 text-white text-center answer hidden"></div>
+    <script src="/src/js/answer_request.js"></script>
+    
+</div>

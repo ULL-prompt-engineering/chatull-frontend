@@ -1,0 +1,19 @@
+{
+  "name": "prueba-astro",
+  "type": "module",
+  "version": "0.0.1",
+  "scripts": {
+    "dev": "astro dev",
+    "start": "astro dev",
+    "build": "astro build",
+    "preview": "astro preview",
+    "astro": "astro"
+  },
+  "dependencies": {
+    "@astrojs/node": "^6.0.3",
+    "@astrojs/tailwind": "^5.0.2",
+    "astro": "^3.3.2",
+    "node": "^20.6.1",
+    "tailwindcss": "^3.3.3"
+  }
+}
