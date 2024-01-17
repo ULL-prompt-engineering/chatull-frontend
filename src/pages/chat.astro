@@ -1,13 +1,14 @@
 ---
 import Layout from '../layouts/Layout.astro';
-import Chat from '../components/Chat.astro';
+import Input from '../components/Input.astro';
 
 ---
 <Layout title="Chat">
     <main class="font-sans">
-        <div class="max-w-full mx-auto my-8 bg-blue-100 rounded-md overflow-hidden shadow-md ml-10 mr-10">
-            <div class="p-4 chat-container border-4 border-black"></div>
+        <div class="max-w-full mx-auto my-8 bg-blue-100 rounded-md overflow-hidden shadow-md ml-10 mr-10 border-4 border-black">
+            <div class="p-4 chat-container "></div>
             <script src="/src/js/load_questions"></script>
+            <Input/>
         </div>
-        <Chat />
+
     </main>
