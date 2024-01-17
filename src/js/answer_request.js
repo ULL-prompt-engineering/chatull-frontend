@@ -19,7 +19,6 @@ function obtenerRespuesta(answer, input, selector, button) {
   .then(response => response.json())
   .then(data => {
       console.log(data);
-      answer.innerHTML = data.answer;
       let questionObject = {
             "question": question.replace(/%20/g, " "),
             "answer": data.answer
