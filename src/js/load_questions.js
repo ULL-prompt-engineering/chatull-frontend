@@ -20,7 +20,7 @@
 function loadQuestion(questionData, isQuestion) {
     if (isQuestion) {
         let messageContainer = document.createElement("div");
-        messageContainer.setAttribute("class", "message-container bg-[#a3bcff] user-message flex flex-row items-center mt-5 rounded-lg");
+        messageContainer.setAttribute("class", "message-container bg-[#a3bcff] user-message flex flex-row items-center rounded-lg");
         let userMessage = document.createElement("div");
         userMessage.setAttribute("class", "UserMessage text-white rounded-lg p-2 mb-5 font-bold");
         let userPhoto = document.createElement("img");
@@ -36,7 +36,7 @@ function loadQuestion(questionData, isQuestion) {
         messageContainer.scrollIntoView();
     } else {
         let messageContainer = document.createElement("div");
-        messageContainer.setAttribute("class", "message-container bot-message bg-[#447058] flex flex-row items-center mt-5 rounded-lg");
+        messageContainer.setAttribute("class", "message-container bot-message bg-[#447058] flex flex-row items-center mt-5 mb-5 rounded-lg");
         let botMessage = document.createElement("div");
         botMessage.setAttribute("class", "BotMessage rounded-lg p-2 mb-5 font-bold");
         let botPhoto = document.createElement("img");
