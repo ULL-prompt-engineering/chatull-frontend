@@ -1,6 +1,6 @@
 import { loadQuestion } from './load_questions.js';
 
-function obtenerRespuesta(answer, input, selector, button) {
+function obtenerRespuesta(input, selector, button) {
   button.disabled = true;
   button.innerHTML = "Obteniendo respuesta...";
   let question = input.value;
@@ -8,10 +8,11 @@ function obtenerRespuesta(answer, input, selector, button) {
   // adapta question para que sea compatible con la URL
   question = question.replace(/ /g, "%20");
   let url = "";
+  let sessionToken = sessionStorage.getItem('session_token');
   if (selector.value != "Reglamentación y Normativa") {
-      url = 'http://127.0.0.1:5000/get_answer?question=' + question + '&subject=' + selector.value;
+      url = 'http://127.0.0.1:5000/get_answer/' + sessionToken + '?question=' + question + '&subject=' + selector.value;
   } else {
-      url = 'http://127.0.0.1:5000/get_teacher_answer?question=' + question;
+      url = 'http://127.0.0.1:5000/get_teacher_answer/' + sessionToken + '?question=' + question;
   }
   loadQuestion({"question": question.replace(/%20/g, " ")}, true);
   input.scrollIntoView();
@@ -46,7 +47,6 @@ function obtenerRespuesta(answer, input, selector, button) {
 // Encuentra todos los botones con la clase `alert` en la página.
 const button = document.querySelector('button.question');
 const input = document.querySelector('input.input-question');
-const answer = document.querySelector('div.answer');
 const selector = document.querySelector('select.subject');
 // Maneja los clics en cada botón.
 
@@ -58,7 +58,7 @@ input.addEventListener("keyup", function(event) {
 });
 
 button.addEventListener('click', async() => {
-    obtenerRespuesta(answer, input, selector, button);
+    obtenerRespuesta(input, selector, button);
 });
 
 

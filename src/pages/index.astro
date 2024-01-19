@@ -3,7 +3,11 @@ import Layout from '../layouts/Layout.astro';
 ---
 
 <Layout title="Welcome to ChatULL.">
-	<main>
+	<main class="flex flex-col items-center justify-center py-10">
+		<label for="api-key" class="block text-2xl font-medium text-white">API Key</label>
+		<input type="text" class="mt-1 focus:ring-indigo-500 focus:border-indigo-500 block w-1/2 shadow-sm sm:text-sm border-gray-300 rounded-md api-key text-black" placeholder="sk-"/>
+		<button class="mt-4 bg-indigo-500 hover:bg-indigo-700 text-white font-bold py-2 px-4 rounded send-api-key">Set API Key</button>
+		<script src="/src/js/session_token.js"></script>
 	</main>
 </Layout>
 
