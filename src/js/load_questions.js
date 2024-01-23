@@ -1,22 +1,3 @@
-/*
-<div class="message-container user-message flex justify-end">
-    <div class="UserMessage bg-blue-500 text-white rounded-lg p-2 mb-5 font-bold">
-        Usuario
-        <div class="message bg-green-500 text-white rounded-lg p-2 mt-2">
-            ¿Cuál es tu nombre?
-        </div>
-    </div>
-</div>
-<div class="message-container bot-message flex">
-    <div class="BotMessage bg-purple-600 rounded-lg p-2 mb-5 font-bold">
-        ChatUll
-        <div class="message bg-gray-300 text-gray-700 rounded-lg p-2 mt-2">
-            Hola, soy ChatUll. ¿En qué puedo ayudarte?
-        </div>
-    </div>
-</div>
-*/
-
 function loadQuestion(questionData, isQuestion) {
     if (isQuestion) {
         let messageContainer = document.createElement("div");

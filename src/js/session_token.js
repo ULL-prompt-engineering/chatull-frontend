@@ -3,7 +3,7 @@ function setApiKey() {
     let apiKey = document.querySelector('input.api-key');
 
     // Enviar la API key y el token de sesión al servidor (puedes usar fetch u otras opciones)
-    fetch('http://localhost:5000/set_api_key', {
+    fetch('http://127.0.0.1:5000/set_api_key', {
         method: 'POST',
         headers: {
             'Content-Type': 'application/json'
