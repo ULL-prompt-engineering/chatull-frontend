@@ -22,8 +22,8 @@ function setApiKey() {
         console.error(error);
     });
 
-    // redirigir a la página principal
-    window.location.href = 'chat';
+    // Redirigir a la página de chat
+    window.location.href = '/chat';
 }
 
 document.querySelector('button.send-api-key').addEventListener('click', setApiKey);

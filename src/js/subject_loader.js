@@ -66,6 +66,8 @@ function selectHandler(event) {
     document.querySelector('input.search').value = selectedOption;
     document.querySelector('input.subject').value = selectedOption;
     document.querySelector('ul.optionsList').style.display = 'none';
+    document.querySelector('button.question').style.display = 'block';
+    document.querySelector('input.input-question').style.display = 'block';
 
     let questions = localStorage.getItem(selectedOption);
     
