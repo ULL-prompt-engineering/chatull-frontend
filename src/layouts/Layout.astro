@@ -38,7 +38,7 @@ const { title } = Astro.props;
 	}
 	html {
 		font-family: system-ui, sans-serif;
-		background: #131313;
+		background: #1F2937;
 		background-size: 224px;
 	}
 	code {
@@ -52,4 +52,18 @@ const { title } = Astro.props;
 			Courier New,
 			monospace;
 	}
+
+	::-webkit-scrollbar {
+      width: 10px;
+    }
+
+	::-webkit-scrollbar-thumb {
+      background-color: #7e22ce;
+      border-radius: 3px;
+
+    }
+
+    ::-webkit-scrollbar-track {
+      background-color: #f1f1f100;
+    }
 </style>

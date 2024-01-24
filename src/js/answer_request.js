@@ -9,8 +9,9 @@ function obtenerRespuesta(input, selector, button) {
   question = question.replace(/ /g, "%20");
   let url = "";
   let sessionToken = sessionStorage.getItem('session_token');
+  let actualSubject = selector.value;
   if (selector.value != "Reglamentación y Normativa") {
-      url = 'http://127.0.0.1:5000/get_answer/' + sessionToken + '?question=' + question + '&subject=' + selector.value;
+      url = 'http://127.0.0.1:5000/get_answer/' + sessionToken + '?question=' + question + '&subject=' + actualSubject;
   } else {
       url = 'http://127.0.0.1:5000/get_teacher_answer/' + sessionToken + '?question=' + question;
   }
@@ -19,20 +20,20 @@ function obtenerRespuesta(input, selector, button) {
   fetch(url)
   .then(response => response.json())
   .then(data => {
-      console.log(data);
       let questionObject = {
             "question": question.replace(/%20/g, " "),
             "answer": data.answer
         };
-      if (!localStorage.getItem(selector.value) || localStorage.getItem(selector.value) == "null") {
-            localStorage.setItem(selector.value, JSON.stringify([questionObject]));
-      } else {
-            let questions = JSON.parse(localStorage.getItem(selector.value));
-            questions.push(questionObject);
-            localStorage.setItem(selector.value, JSON.stringify(questions));
-      }
-        loadQuestion(questionObject, false);
-        input.scrollIntoView();
+      
+        let questions = JSON.parse(localStorage.getItem(actualSubject));
+        questions.push(questionObject);
+        localStorage.setItem(actualSubject, JSON.stringify(questions));
+        console.log(selector.value, actualSubject);
+        if (selector.value === actualSubject) {
+            loadQuestion(questionObject, false);
+            input.scrollIntoView();
+        }
+        
         button.disabled = false;
         button.innerHTML = "Enviar";
   })
@@ -47,7 +48,7 @@ function obtenerRespuesta(input, selector, button) {
 // Encuentra todos los botones con la clase `alert` en la página.
 const button = document.querySelector('button.question');
 const input = document.querySelector('input.input-question');
-const selector = document.querySelector('select.subject');
+const selector = document.querySelector('input.subject');
 // Maneja los clics en cada botón.
 
 input.addEventListener("keyup", function(event) {

@@ -22,7 +22,7 @@ function loadQuestion(questionData, isQuestion) {
         botMessage.setAttribute("class", "BotMessage rounded-lg p-2 mb-5 font-bold");
         let botPhoto = document.createElement("img");
         botPhoto.setAttribute("class", "rounded-full ml-4 mr-4 mt-4 mb-4 max-h-16 m-w-16");
-        botPhoto.setAttribute("src", "https://www.ibiae.com/wp-content/uploads/2021/03/SARA-ASISTENTE-VIRTUAL.jpg");
+        botPhoto.setAttribute("src", "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTo_Z_c6fOXTkTHFylBBTIImwmwhXx_4qqdKrx1YL82EA&s");
         messageContainer.appendChild(botPhoto);
         let message = document.createElement("div");
         message.setAttribute("class", "message text-white rounded-lg");
@@ -33,28 +33,5 @@ function loadQuestion(questionData, isQuestion) {
         messageContainer.scrollIntoView();
     }
 }
-const selector = document.querySelector('select.subject');
-let questions = localStorage.getItem(selector.value);
-
-if (questions) {
-    questions = JSON.parse(questions);
-    questions.forEach((question) => {
-        loadQuestion(question, true);
-        loadQuestion(question, false);
-    });
-}
-
-selector.addEventListener("change", function(event) {
-    console.log("change");
-    let questions = localStorage.getItem(selector.value);
-    document.querySelector("div.chat-container").innerHTML = "";
-    if (questions) {
-        questions = JSON.parse(questions);
-        questions.forEach((question) => {
-            loadQuestion(question, true);
-            loadQuestion(question, false);
-        });
-    }
-});
 
 export { loadQuestion };
