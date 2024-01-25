@@ -68,6 +68,7 @@ function selectHandler(event) {
     document.querySelector('ul.optionsList').style.display = 'none';
     document.querySelector('button.question').style.display = 'block';
     document.querySelector('input.input-question').style.display = 'block';
+    document.querySelector('button.clear').style.display = 'block';
 
     let questions = localStorage.getItem(selectedOption);
     

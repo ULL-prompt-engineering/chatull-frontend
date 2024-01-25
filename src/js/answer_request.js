@@ -49,7 +49,13 @@ function obtenerRespuesta(input, selector, button) {
 const button = document.querySelector('button.question');
 const input = document.querySelector('input.input-question');
 const selector = document.querySelector('input.subject');
-// Maneja los clics en cada botón.
+const clearButton = document.querySelector('button.clear');
+
+clearButton.addEventListener('click', () => {
+    let currentSubject = selector.value;
+    localStorage.removeItem(currentSubject);
+    location.reload();
+});
 
 input.addEventListener("keyup", function(event) {
     if (event.keyCode === 13) {
@@ -61,5 +67,7 @@ input.addEventListener("keyup", function(event) {
 button.addEventListener('click', async() => {
     obtenerRespuesta(input, selector, button);
 });
+
+
 
 
