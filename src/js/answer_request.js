@@ -10,7 +10,7 @@ function obtenerRespuesta(input, selector, button) {
   let url = "";
   let sessionToken = sessionStorage.getItem('session_token');
   let actualSubject = selector.value;
-  if (selector.value != "Reglamentación y Normativa") {
+  if (selector.value != "Reglamentacion y Normativa") {
       url = 'http://127.0.0.1:5000/get_answer/' + sessionToken + '?question=' + question + '&subject=' + actualSubject;
   } else {
       url = 'http://127.0.0.1:5000/get_teacher_answer/' + sessionToken + '?question=' + question;
