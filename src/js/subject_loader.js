@@ -58,7 +58,7 @@ async function SaveSubjectsToLocalStorage() {
 
     localStorage.setItem('subjects', JSON.stringify(data));
 
-    loadQuestion({"answer": "¡Hola! Soy ChatUll, tu asistente virtual. Primero, selecciona la Guía Docente sobre la que quieres preguntar a través del buscador situado en la esquina inferior derecha de la pantalla."}, false);
+    loadQuestion({"answer": "¡Hola! Soy ChatULL, tu asistente virtual. Primero, selecciona la Guía Docente sobre la que quieres preguntar a través del buscador situado en la esquina inferior derecha de la pantalla."}, false);
 }
 
 function selectHandler(event) {
@@ -85,7 +85,7 @@ function selectHandler(event) {
             }
         });
     } else {
-        let introductoryMessage = "¡Hola! Soy ChatUll, tu asistente virtual. Puedes preguntarme cualquier duda que tengas sobre el documento seleccionado.";
+        let introductoryMessage = "¡Hola! Soy ChatULL, tu asistente virtual. Puedes preguntarme cualquier duda que tengas sobre el documento seleccionado.";
 
         let questionObject = {
             "question": "",
