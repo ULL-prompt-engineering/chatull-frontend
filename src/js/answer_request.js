@@ -11,9 +11,9 @@ function obtenerRespuesta(input, selector, button) {
   let sessionToken = sessionStorage.getItem('session_token');
   let actualSubject = selector.value;
   if (selector.value != "Reglamentacion y Normativa") {
-      url = 'https://chatul.onrender.com/get_answer/' + sessionToken + '?question=' + question + '&subject=' + actualSubject;
+      url = 'https://chatull.onrender.com/get_answer/' + sessionToken + '?question=' + question + '&subject=' + actualSubject;
   } else {
-      url = 'https://chatul.onrender.com/get_teacher_answer/' + sessionToken + '?question=' + question;
+      url = 'https://chatull.onrender.com/get_teacher_answer/' + sessionToken + '?question=' + question;
   }
   loadQuestion({"question": question.replace(/%20/g, " ")}, true);
   input.scrollIntoView();

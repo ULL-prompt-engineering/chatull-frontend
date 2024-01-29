@@ -3,7 +3,7 @@ async function setApiKey() {
     let apiKey = document.querySelector('input.api-key');
 
     // Enviar la API key y el token de sesión al servidor (puedes usar fetch u otras opciones)
-    await fetch('https://chatul.onrender.com/set_api_key', {
+    await fetch('https://chatull.onrender.com/set_api_key', {
         method: 'POST',
         headers: {
             'Content-Type': 'application/json'

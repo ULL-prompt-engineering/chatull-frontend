@@ -49,7 +49,7 @@ async function SaveSubjectsToLocalStorage() {
     let res
     let data = [];
      try {
-        res = await fetch('https://chatul.onrender.com/documents')
+        res = await fetch('https://chatull.onrender.com/documents')
         data = await res.json()
         data = data.map(doc => doc.name)
     } catch (error) {
