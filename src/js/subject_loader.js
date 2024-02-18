@@ -12,6 +12,8 @@ document.addEventListener('click', function(event) {
 async function searchHandler() {
     let searchTerm = document.querySelector('input.search').value.toLowerCase();
     let optionsList = document.querySelector('ul.optionsList');
+    // establecer clase de lista de opciones
+    optionsList.classList.add("menu", "menu-vertical");
     optionsList.innerHTML = '';
 
     let data = localStorage.getItem('subjects');

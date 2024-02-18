@@ -69,5 +69,10 @@ button.addEventListener('click', async() => {
 });
 
 
-
+document.addEventListener('DOMContentLoaded', function() {
+    // si la pagina es /chat o /chat.html y no hay token de sesion, redirige a /
+    if (window.location.pathname.includes("/chat") && !sessionStorage.getItem('session_token')) {
+        window.location.replace("/");
+    }
+});
 
