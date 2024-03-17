@@ -4,7 +4,7 @@ import { Message } from "./message";
 import { SubjectController } from "./subject_controller";
 import { SessionController } from "./session_controller";
 
-class Chat {
+class ChatController {
   constructor(
     chat_container_tag: string,
     chat_input_tag: string,
@@ -37,9 +37,10 @@ class Chat {
       this.AddMessageToChat(response_message);
     });
 
+    let self = this;
     this.chatInput.addEventListener("keyup", (event) => {
       if (event.key === "Enter") {
-        this.chatButton.click();
+        self.chatButton.click();
       }
     });
   }
@@ -102,3 +103,5 @@ class Chat {
   private subjectController: SubjectController;
   private sessionController: SessionController;
 }
+
+export { ChatController };
