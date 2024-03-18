@@ -30,11 +30,11 @@ class ChatController {
     this.chatButton.addEventListener("click", async () => {
       let question = this.GetQuestion();
       let question_message = new Message(question, true);
-      this.AddMessageToChat(question_message);
+      this.AddMessage(question_message);
 
       let response: string = await this.GetQuestionAnswer();
       let response_message = new Message(response, false);
-      this.AddMessageToChat(response_message);
+      this.AddMessage(response_message);
     });
 
     let self = this;
@@ -94,6 +94,40 @@ class ChatController {
     this.chatContainer.appendChild(message.buildMessage());
   }
 
+  private AddMessageToLocalStorage(message: Message) {
+    let actual_subject = this.subjectController.GetSelectedSubject() || "";
+    if (actual_subject == "") {
+      return;
+    }
+
+    let chats = JSON.parse(localStorage.getItem("chats") || "{}");
+    if (actual_subject in chats) {
+      chats[actual_subject].push(message);
+    } else {
+      chats[actual_subject] = [message];
+    }
+    localStorage.setItem("chats", JSON.stringify(chats));
+  }
+
+  private AddMessage(message: Message) {
+    this.AddMessageToChat(message);
+    this.AddMessageToLocalStorage(message);
+  }
+
+  private LoadChatFromLocalStorage() {
+    this.chatContainer.innerHTML = "";
+    let actual_subject = this.subjectController.GetSelectedSubject() || "";
+    if (actual_subject == "") {
+      return;
+    }
+
+    let chats = JSON.parse(localStorage.getItem("chats") || "{}");
+    if (actual_subject in chats) {
+      for (let message of chats[actual_subject]) {
+        this.AddMessageToChat(message);
+      }
+    }
+  }
   
   
 

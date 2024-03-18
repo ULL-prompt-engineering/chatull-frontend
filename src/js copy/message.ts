@@ -4,6 +4,14 @@ class Message {
     this.isQuestion = isQuestion;
   }
 
+  public GetText(): string {
+    return this.text;
+  }
+
+  public IsQuestion(): boolean {
+    return this.isQuestion;
+  }
+
   public buildMessage(): HTMLElement {
     let messageContainer = document.createElement("div");
     if (this.isQuestion) {

@@ -5,7 +5,7 @@ function main() {
     ".chat-container",
     ".chat-input",
     ".chat-button",
-    ".subject-selector",
+    ".subject",
     ".lateral-menu"
   );
   chatController.init();
