@@ -8,7 +8,6 @@ function main() {
     ".subject",
     ".lateral-menu"
   );
-  chatController.init();
 }
 
 main();
