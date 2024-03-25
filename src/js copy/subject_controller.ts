@@ -48,6 +48,12 @@ class SubjectController {
   }
 
   private LoadExistingChatSubjectsToLateralMenu() {
+    let newChatButton = document.createElement("label");
+    newChatButton.textContent = "Crear nuevo chat";
+    newChatButton.classList.add("btn", "bg-[#5C068C]", "text-white", "hover:bg-[#4A056C]", "p-2", "rounded-md", "cursor-pointer", "m-4");
+    newChatButton.htmlFor = "modal_crear_chat";
+
+    this.menu_selector_.appendChild(newChatButton);
     let title = document.createElement("h1");
     title.textContent = "Asignaturas";
     title.classList.add("text-2xl", "font-bold", "p-4");
@@ -62,6 +68,8 @@ class SubjectController {
         this.subject_selector_.value = subject;
         this.subject_selector_.dispatchEvent(new Event('change'));
       });
+      let subjectText = subject.replace(/ /g, "_");
+      subjectElement.classList.add("cursor-pointer", "hover:bg-gray-200", subjectText);
       this.menu_selector_.appendChild(subjectElement);
     });
   }

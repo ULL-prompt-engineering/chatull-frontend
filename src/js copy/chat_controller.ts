@@ -15,7 +15,9 @@ class ChatController {
     this.chat_container_ = document.querySelector(
       chat_container_tag
     ) as HTMLElement;
-    this.chat_input_ = document.querySelector(chat_input_tag) as HTMLInputElement;
+    this.chat_input_ = document.querySelector(
+      chat_input_tag
+    ) as HTMLInputElement;
     this.chat_button_ = document.querySelector(
       chat_button_tag
     ) as HTMLButtonElement;
@@ -47,9 +49,31 @@ class ChatController {
       }
     });
 
-    this.subject_controller_.GetSubjectSelector().addEventListener("change", () => {
-      this.LoadChatFromLocalStorage();
-    });
+    this.subject_controller_
+      .GetSubjectSelector()
+      .addEventListener("change", () => {
+        this.LoadChatFromLocalStorage();
+        this.chat_container_.scrollTop = this.chat_container_.scrollHeight;
+        this.RemoveClassToSubjects();
+        this.AddClassToChooseSubject();
+      });
+  }
+
+  private AddClassToChooseSubject() {
+    let actual_subject = this.subject_controller_.GetSelectedSubject();
+    let subject = document.querySelector(
+      "." + actual_subject.replace(/ /g, "_")
+    ) as HTMLElement;
+    if (subject) {
+      subject.classList.add("bg-[#a3bcff]", "selected_subject");
+    }
+  }
+
+  private RemoveClassToSubjects() {
+    let subject = document.querySelector(".selected_subject") as HTMLElement;
+    if (subject) {
+      subject.classList.remove("bg-[#a3bcff]", "selected_subject");
+    }
   }
 
   private GetQuestion() {
@@ -97,6 +121,7 @@ class ChatController {
 
   private AddMessageToChat(message: Message) {
     this.chat_container_.appendChild(message.BuildMessage());
+    this.chat_container_.scrollTop = this.chat_container_.scrollHeight;
   }
 
   private AddMessageToLocalStorage(message: Message) {
