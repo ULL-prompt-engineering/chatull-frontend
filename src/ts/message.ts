@@ -55,7 +55,7 @@ class Message {
     } else {
       photo.setAttribute(
         "src",
-        "ull_icon.png"
+        "/ull_icon.png"
       );
     }
     messageContainer.appendChild(role_container);
