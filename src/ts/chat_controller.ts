@@ -7,14 +7,18 @@ import { SessionController } from "./session_controller";
 class ChatController {
   constructor(
     chat_container_tag: string,
+    input_div_tag: string,
     chat_input_tag: string,
     chat_button_tag: string,
     subject_selector_tag: string,
-    menu_selector_tag: string
+    menu_selector_tag: string,
+    modal_search_tag: string,
+    modal_list_selector_tag: string
   ) {
     this.chat_container_ = document.querySelector(
       chat_container_tag
     ) as HTMLElement;
+    this.input_div_ = document.querySelector(input_div_tag) as HTMLElement;
     this.chat_input_ = document.querySelector(
       chat_input_tag
     ) as HTMLInputElement;
@@ -23,12 +27,18 @@ class ChatController {
     ) as HTMLButtonElement;
     this.subject_controller_ = new SubjectController(
       subject_selector_tag,
-      menu_selector_tag
+      menu_selector_tag,
+      modal_search_tag,
+      modal_list_selector_tag
     );
 
     this.Init();
 
     this.session_controller_ = new SessionController();
+
+    if (!this.session_controller_.GetSessionToken()) {
+      window.location.href = "/set_api_key";
+    }
   }
 
   public Init() {
@@ -53,10 +63,18 @@ class ChatController {
       .GetSubjectSelector()
       .addEventListener("change", () => {
         this.LoadChatFromLocalStorage();
-        this.chat_container_.scrollTop = this.chat_container_.scrollHeight;
+        this.chat_container_.scrollTo({
+          top: this.chat_container_.scrollHeight,
+          behavior: "smooth",
+        });
         this.RemoveClassToSubjects();
         this.AddClassToChooseSubject();
       });
+
+      // esconde el input y carga un mensaje de bienvenida
+      this.input_div_.style.display = "none";
+      let message = new Message("Hola, soy ChatULL, tu asistente virtual.<br>Para comenzar, selecciona una asignatura de las mostradas en el menú de la izquierda, si no te aparece la asignatura que buscas, puedes darle al botón de crear nuevo chat y buscarla.", false);
+      this.AddMessageToChat(message);
   }
 
   private AddClassToChooseSubject() {
@@ -65,7 +83,11 @@ class ChatController {
       "." + actual_subject.replace(/ /g, "_")
     ) as HTMLElement;
     if (subject) {
-      subject.classList.add("bg-[#a3bcff]", "selected_subject");
+      subject.classList.add(
+        "bg-[#a3bcff]",
+        "selected_subject",
+        "rounded-lg"
+      );
     }
   }
 
@@ -88,6 +110,9 @@ class ChatController {
     let url = "";
     let subject = this.subject_controller_.GetSelectedSubject();
     let sessionToken = this.session_controller_.GetSessionToken();
+    
+    // desactiva el botón de enviar mensaje
+    this.chat_button_.disabled = true;
 
     if (subject != "Reglamentacion y Normativa") {
       url =
@@ -116,6 +141,8 @@ class ChatController {
       console.error("Error:", error);
       data = "Error al obtener respuesta";
     }
+    // activa el botón de enviar mensaje
+    this.chat_button_.disabled = false;
     return data;
   }
 
@@ -145,6 +172,7 @@ class ChatController {
   }
 
   private LoadChatFromLocalStorage() {
+    this.input_div_.style.display = "block";
     this.chat_container_.innerHTML = "";
     let actual_subject = this.subject_controller_.GetSelectedSubject() || "";
     if (actual_subject == "") {
@@ -157,10 +185,14 @@ class ChatController {
         message = new Message(message.text_, message.is_question_);
         this.AddMessageToChat(message);
       }
+    } else {
+      let message = new Message("Hola, ¿en qué puedo ayudarte?", false);
+      this.AddMessage(message);
     }
   }
 
   private chat_container_: HTMLElement;
+  private input_div_: HTMLElement;
   private chat_input_: HTMLInputElement;
   private chat_button_: HTMLButtonElement;
   private subject_controller_: SubjectController;

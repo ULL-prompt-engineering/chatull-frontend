@@ -3,7 +3,7 @@ import Layout from '../layouts/Layout.astro';
 ---
 
 <Layout title="Welcome to ChatULL.">
-	<main class="font-sans">
+	<main class="">
         <div class="p-10">
             <div class="flex flex-col md:flex-row items-center justify-center">
                 <div class="description flex flex-col items-center md:items-start justify-center mx-10 md:mx-40">
@@ -13,13 +13,13 @@ import Layout from '../layouts/Layout.astro';
                     </p>
                 </div>
                 <div class="flex items-center justify-center mt-4">
-                    <img src="/icon.png" alt="ChatULL" class="w-1/2" />
+                    <img src="/icon.webp" alt="ChatULL" class="w-1/2" />
                 </div>
             </div>
-            <div class="flex items-center justify-center">
-                <button class="btn btn-lg btn-wide mt-8 bg-[#5C068C] text-white hover:bg-[#4A056C]">
-                    <a href="/set_api_key" class="">Comenzar a usar ChatULL</a>
-                </button>
+            <div class="flex items-center justify-center mt-8 ">
+                <a href="/set_api_key" class="">
+                <button class="btn btn-lg btn-wide bg-[#5C068C] text-white hover:bg-[#4A056C]">Comenzar a usar ChatULL
+                </button></a>
             </div>
         </div>
     </main>

@@ -59,7 +59,7 @@ class SessionController {
         let sessionToken = data.session_token;
         // Guardar el token de sesión en el almacenamiento local
         this.SetSessionTokenToLocalStorage(sessionToken);
-        window.location.href = "/chat2";
+        window.location.href = "/chat";
       })
       .catch((error) => {
         console.error(error);

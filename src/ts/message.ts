@@ -17,40 +17,50 @@ class Message {
     if (this.is_question_) {
       messageContainer.setAttribute(
         "class",
-        "message-container bg-[#a3bcff] user-message flex flex-row items-center rounded-lg"
+        "message-container bg-[#B7B7B7] user-message flex flex-row items-center rounded-lg"
       );
     } else {
       messageContainer.setAttribute(
         "class",
-        "message-container bot-message bg-[#447058] flex flex-row items-center mt-5 mb-5 rounded-lg"
+        "message-container bot-message bg-[#723499] flex flex-row items-center mt-5 mb-5 rounded-lg"
       );
     }
+
+    let role_container = document.createElement("div");
+    role_container.setAttribute("class", "role-container flex flex-col items-center px-4 py-2");
+
+    let role_message = document.createElement("div");
+    role_message.setAttribute("class", "role-message p-1 text-white font-bold");
+    role_message.innerHTML = this.is_question_ ? "Tú" : "Chatull";
+
     let message = document.createElement("div");
     if (this.is_question_) {
       message.setAttribute(
         "class",
-        "UserMessage text-white rounded-lg p-2 mb-5 font-bold"
+        "UserMessage rounded-lg p-2 font-bold"
       );
     } else {
-      message.setAttribute("class", "BotMessage rounded-lg p-2 mb-5 font-bold");
+      message.setAttribute("class", "BotMessage rounded-lg p-2 font-bold");
     }
     let photo = document.createElement("img");
     photo.setAttribute(
       "class",
-      "rounded-full ml-4 mr-4 mt-4 mb-4 max-h-16 m-w-16"
+      "rounded-full ml-4 mr-4 mb-4 max-h-16 m-w-16 border border-2 border-white"
     );
     if (this.is_question_) {
       photo.setAttribute(
         "src",
-        "https://www.clipartmax.com/png/middle/434-4349876_profile-icon-vector-png.png"
+        "/user.webp"
       );
     } else {
       photo.setAttribute(
         "src",
-        "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTo_Z_c6fOXTkTHFylBBTIImwmwhXx_4qqdKrx1YL82EA&s"
+        "ull_icon.png"
       );
     }
-    messageContainer.appendChild(photo);
+    messageContainer.appendChild(role_container);
+    role_container.appendChild(role_message);
+    role_container.appendChild(photo);
     let messageText = document.createElement("div");
     messageText.setAttribute("class", "message text-white rounded-lg");
     messageText.innerHTML = this.text_;

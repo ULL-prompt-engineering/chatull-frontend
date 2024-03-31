@@ -1,17 +1,13 @@
 ---
+
 ---
 
-<div class="flex flex-col items-center justify-center">
-    <div class="w-full h-32 flex flex-col items-center justify-center space-x-4 md:flex-row">
-        <input type="text" class="subject" hidden>
-        <input type="text" class="w-3/5 border-2 border-gray-300 p-5 rounded input-question bg-slate-600 text-white hidden" placeholder="¿Cómo se calcula la calificación final por evaluación continua?">
-        <button class="bg-purple-700 hover:bg-purple-800 text-white font-bold py-2 px-4 rounded-full question hidden">Enviar</button>
-        <input type="text" class="bg-slate-600 text-white p-5 rounded shadow-md search" placeholder="Buscador...">
-        <ul class="text-white optionsList bg-slate-600 rounded shadow-md hidden"></ul>
-        <button class="bg-purple-700 hover:bg-purple-800 text-white font-bold py-2 px-4 rounded-full m-4 hidden clear">Clear History</button>
+<div class="px-4 py-2 input-chat hidden">
+    <div class="relative">
+      <input type="text" class="w-full border border-gray-200 rounded-lg py-2 px-4 pl-10 pr-12 focus:outline-none focus:border-blue-500 chat-input" placeholder="Escribe tu pregunta...">
+      <button class="absolute inset-y-0 right-0 px-4 py-2 rounded-r-lg hover:bg-purple-700 focus:outline-none chat-button">
+        <i class="fas fa-paper-plane"></i> <!-- Icono de enviar -->
+      </button>
     </div>
-    
-    <script src="/src/js/answer_request.js"></script>
-    <script src="/src/js/subject_loader.js"></script>
-    
+    <div class="relative px-2 py-2 text-center text-xs text-token-text-secondary md:px-[60px]"><span>ChatULL puede cometer errores, por favor, no confíes ciegamente en sus respuestas.</span></div>
 </div>

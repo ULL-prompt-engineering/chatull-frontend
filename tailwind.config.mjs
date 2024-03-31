@@ -4,7 +4,7 @@ export default {
   theme: {
     extend: {
       fontFamily: {
-        argentum: ["Argentum Sans", "sans-serif"],
+        argentum: ["Argentum Sans"],
       },
     },
   },

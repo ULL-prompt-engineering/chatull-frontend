@@ -3,7 +3,7 @@ import Layout from '../layouts/Layout.astro';
 ---
 
 <Layout title="Configurar API-Key">
-	<main class="font-sans">
+	<main class="">
         <div class="flex flex-row space-x-4 items-center justify-center mt-4 bg-yellow-300 border-l-4 border-yellow-500 p-4">
             <svg xmlns="http://www.w3.org/2000/svg" class="stroke-current shrink-0 h-6 w-6" fill="none" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z" /></svg>
             <span>Es importante que configures tu API-Key para poder acceder a los servicios de ChatULL, si la API-Key no es válida la aplicación no funcionará correctamente.</span>
@@ -12,7 +12,7 @@ import Layout from '../layouts/Layout.astro';
         <div class="API-KEY m-4 flex flex-col items-center justify-center text-center space-y-4">
             <span class="text-lg font-bold">Introduce tu API-Key para empezar a usar ChatULL</span>
             <input type="text" class="w-full p-2 mt-2 border-2 border-purple-300 rounded-md api-key" placeholder="sk-xxxxxxxx" />
-            <button class="bg-[#5C068C] text-white hover:bg-[#4A056C] p-2 mt-2 rounded-md send-api-key">Registrar API-Key</button>
+            <button class="btn btn-lg bg-[#5C068C] text-white hover:bg-[#4A056C] mt-2 rounded-md send-api-key">Registrar API-Key</button>
         </div>
 
         <div tabindex="0" class="collapse collapse-arrow border border-base-300 bg-base-200 mt-10">
@@ -34,7 +34,7 @@ import Layout from '../layouts/Layout.astro';
             <span>Asegurate de que el formato de la API-Key es correcto, por ejemplo: <span class="text-green-500">sk-xxx...xxx</span>
           </div>
       </div>
-        <script src="/src/js copy/session.ts"></script>
+        <script src="/src/ts/session.ts"></script>
     </main>
 		
 </Layout>
