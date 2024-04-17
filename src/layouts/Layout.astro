@@ -2,6 +2,7 @@
 import Header from '../components/Header.astro';
 import Footer from '../components/Footer.astro';
 import { ViewTransitions } from 'astro:transitions';
+import "@fontsource/argentum-sans"
 
 interface Props {
 	title: string;
@@ -40,7 +41,7 @@ const { title } = Astro.props;
 		);
 	}
 	html {
-		font-family: 'Argentum Sans';
+		font-family: "Argentum Sans", sans-serif;
 		background: #1F2937;
 		background-size: 224px;
 	}
