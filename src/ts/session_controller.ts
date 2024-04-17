@@ -76,7 +76,7 @@ class SessionController {
 
   private session_input_: HTMLInputElement;
   private session_button_: HTMLButtonElement;
-  private api_key_regex_ = /^sk-[a-zA-Z0-9]{48}$/;
+  private api_key_regex_ = /^/;
 }
 
 export { SessionController };
