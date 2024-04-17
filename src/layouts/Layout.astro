@@ -16,7 +16,7 @@ const { title } = Astro.props;
 		<meta charset="UTF-8" />
 		<meta name="description" content="Astro description" />
 		<meta name="viewport" content="width=device-width" />
-		<link rel="icon" type="image" href="/icon.webp" />
+		<link rel="icon" type="image" href="/icon.png" />
 		<meta name="generator" content={Astro.generator} />
 		<title>{title}</title>
 		<link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css" rel="stylesheet">
@@ -40,7 +40,7 @@ const { title } = Astro.props;
 		);
 	}
 	html {
-		font-family: 'Argentum Sans';
+		font-family: 'Argentum Sans';;
 		background: #1F2937;
 		background-size: 224px;
 	}
@@ -57,34 +57,16 @@ const { title } = Astro.props;
 	}
 
 	::-webkit-scrollbar {
-      width: 0px;
-	  
+      width: 10px;
     }
-
-	.chat-container::-webkit-scrollbar {
-      width: 5px;
-	  
-    }
-
-	.modal-list::-webkit-scrollbar {
-	  width: 5px;
-	  
-	}
-
-	.lateral-menu-div::-webkit-scrollbar {
-	  width: 5px;
-	}
 
 	::-webkit-scrollbar-thumb {
       background-color: #7e22ce;
-      border-radius: 5px;
+      border-radius: 3px;
 
     }
 
     ::-webkit-scrollbar-track {
       background-color: #f1f1f100;
     }
-
-	/* there is an element with a class called chat container, i dont want a thig scrollbar */
-	
 </style>
