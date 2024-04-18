@@ -1,4 +1,4 @@
-// Create a class for chat controll inspired in /src/js folder
+let API_URL = import.meta.env.PUBLIC_API_URL;
 
 import { Message } from "./message";
 import { SubjectController } from "./subject_controller";
@@ -36,7 +36,7 @@ class ChatController {
 
     this.session_controller_ = new SessionController();
 
-    if (!this.session_controller_.GetSessionToken()) {
+    if (!this.session_controller_.GetJwt()) {
       window.location.href = "/set_api_key";
     }
   }
@@ -109,23 +109,21 @@ class ChatController {
     question = question.replace(/ /g, "%20");
     let url = "";
     let subject = this.subject_controller_.GetSelectedSubject();
-    let sessionToken = this.session_controller_.GetSessionToken();
+    let jwt = this.session_controller_.GetJwt();
     
     // desactiva el botón de enviar mensaje
     this.chat_button_.disabled = true;
 
     if (subject != "Reglamentacion y Normativa") {
       url =
-        "https://chatull.onrender.com/get_answer/" +
-        sessionToken +
+        API_URL + "/get_answer" +
         "?question=" +
         question +
         "&subject=" +
         subject;
     } else {
       url =
-        "https://chatull.onrender.com/get_teacher_answer/" +
-        sessionToken +
+        API_URL + "/get_regulation_answer" +
         "?question=" +
         question;
     }
@@ -133,7 +131,13 @@ class ChatController {
     let res;
     let data;
     try {
-      res = await fetch(url);
+      res = await fetch(url, {
+        method: "GET",
+        mode: "cors",
+        headers: {
+          'Authorization': jwt
+        }
+      });
       data = await res.json();
       this.chat_input_.value = "";
       data = data.answer;

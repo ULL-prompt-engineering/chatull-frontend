@@ -1,3 +1,5 @@
+let API_URL = import.meta.env.PUBLIC_API_URL;
+
 class SessionController {
   constructor(session_input_tag: string = "", session_button_tag: string = "") {
     if (session_input_tag === "" || session_button_tag === "") {
@@ -26,26 +28,34 @@ class SessionController {
   }
   
   private IsValidApiKey(api_key: string) {
-    let result = true;
-    if (!this.api_key_regex_.test(api_key)) {
-        result = false;
-    }
-    return result;
+    // Implementa la lógica de validación del token JWT aquí
+    // Por ejemplo, puedes verificar el formato del token o enviar una solicitud al servidor para validar el token
+    // Para este ejemplo, supondré que el token es válido si no está vacío
+    return api_key.trim() !== "";
   }
   
   private async setApiKey() {
+    // Verifica si ya existe un JWT en el almacenamiento local
+    const existingJwt = this.GetJwt();
+    if (existingJwt) {
+      // Si ya hay un JWT, redirige al usuario a la página de chat
+      window.location.href = "/chat";
+      return;
+    }
+    
     let api_key = this.session_input_.value;
     console.log("api_key", api_key);
-    // Validar que la API key tenga el formato correcto "sk-[48 letras o numeros en minúsculas o mayúsculas]"
+    // Validar que la API key tenga el formato correcto (aquí puedes agregar tu lógica de validación específica para los tokens JWT)
     if (!this.IsValidApiKey(api_key)) {
       alert("La API key ingresada no es una API key válida");
       this.session_input_.value = "";
       return;
     }
-
-    // Enviar la API key y el token de sesión al servidor (puedes usar fetch u otras opciones)
-    await fetch("https://chatull.onrender.com/set_api_key", {
+    let url = API_URL + "/set_api_key";
+    // Enviar la API key al servidor para obtener el token JWT
+    await fetch(url, {
       method: "POST",
+      mode: "cors",
       headers: {
         "Content-Type": "application/json",
       },
@@ -56,9 +66,9 @@ class SessionController {
       .then((response) => response.json())
       .then((data) => {
         console.log(data);
-        let sessionToken = data.session_token;
-        // Guardar el token de sesión en el almacenamiento local
-        this.SetSessionTokenToLocalStorage(sessionToken);
+        let jwt = data.jwt;
+        // Guardar el token JWT en el almacenamiento local
+        this.SetJwtToLocalStorage(jwt);
         window.location.href = "/chat";
       })
       .catch((error) => {
@@ -66,17 +76,16 @@ class SessionController {
       });
   }
 
-  public GetSessionToken() {
-    return sessionStorage.getItem("session_token") || "";
+  public GetJwt() {
+    return localStorage.getItem("jwt") || "";
   }
 
-  public SetSessionTokenToLocalStorage(token: string) {
-    sessionStorage.setItem("session_token", token);
+  public SetJwtToLocalStorage(jwt: string) {
+    localStorage.setItem("jwt", jwt);
   }
 
   private session_input_: HTMLInputElement;
   private session_button_: HTMLButtonElement;
-  private api_key_regex_ = /^/;
 }
 
 export { SessionController };

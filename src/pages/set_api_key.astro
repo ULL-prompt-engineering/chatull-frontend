@@ -79,7 +79,7 @@ import Layout from "../layouts/Layout.astro";
       </div>
       <script src="/src/ts/session.ts"></script>
       <script>
-        document.querySelector(".api-link").addEventListener("click", () => {
+        document.querySelector(".api-link")!.addEventListener("click", () => {
           window.open("https://platform.openai.com/account/api-keys", "_blank");
         });
       </script>
