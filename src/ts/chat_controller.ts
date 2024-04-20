@@ -143,6 +143,10 @@ class ChatController {
       data = data.answer;
     } catch (error) {
       console.error("Error:", error);
+      if (res.status == 401) {
+        this.session_controller_.RemoveJwt();
+        window.location.href = "/set_api_key";
+      }
       data = "Error al obtener respuesta";
     }
     // activa el botón de enviar mensaje

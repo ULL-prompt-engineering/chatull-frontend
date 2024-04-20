@@ -27,13 +27,6 @@ class SessionController {
     });
   }
   
-  private IsValidApiKey(api_key: string) {
-    // Implementa la lógica de validación del token JWT aquí
-    // Por ejemplo, puedes verificar el formato del token o enviar una solicitud al servidor para validar el token
-    // Para este ejemplo, supondré que el token es válido si no está vacío
-    return api_key.trim() !== "";
-  }
-  
   private async setApiKey() {
     // Verifica si ya existe un JWT en el almacenamiento local
     const existingJwt = this.GetJwt();
@@ -45,12 +38,7 @@ class SessionController {
     
     let api_key = this.session_input_.value;
     console.log("api_key", api_key);
-    // Validar que la API key tenga el formato correcto (aquí puedes agregar tu lógica de validación específica para los tokens JWT)
-    if (!this.IsValidApiKey(api_key)) {
-      alert("La API key ingresada no es una API key válida");
-      this.session_input_.value = "";
-      return;
-    }
+
     let url = API_URL + "/set_api_key";
     // Enviar la API key al servidor para obtener el token JWT
     await fetch(url, {
@@ -82,6 +70,10 @@ class SessionController {
 
   public SetJwtToLocalStorage(jwt: string) {
     localStorage.setItem("jwt", jwt);
+  }
+
+  public RemoveJwt() {
+    localStorage.removeItem("jwt");
   }
 
   private session_input_: HTMLInputElement;
