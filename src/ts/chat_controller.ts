@@ -43,7 +43,13 @@ class ChatController {
 
   public Init() {
     this.chat_button_.addEventListener("click", async () => {
+      if (this.getting_answer_) {
+        return;
+      }
       let question = this.GetQuestion();
+      if (question == "") {
+        return;
+      }
       let question_message = new Message(question, true);
       this.AddMessage(question_message);
 
@@ -103,8 +109,17 @@ class ChatController {
     return question;
   }
 
+  private ClearQuestion() {
+    this.chat_input_.value = "";
+  }
+
   private async GetQuestionAnswer(): Promise<string> {
+    // Desactiva el botón de enviar mensaje mientras se obtiene la respuesta y ponemos este
+    // <span class="loading loading-spinner loading-sm"></span> en el botón
+    this.chat_button_.innerHTML = '<span class="loading loading-spinner loading-sm"></span>';
+
     let question = this.GetQuestion();
+    this.ClearQuestion();
     // adapta question para que sea compatible con la URL
     question = question.replace(/ /g, "%20");
     let url = "";
@@ -131,6 +146,7 @@ class ChatController {
     let res;
     let data;
     try {
+      this.getting_answer_ = true;
       res = await fetch(url, {
         method: "GET",
         mode: "cors",
@@ -139,11 +155,11 @@ class ChatController {
         }
       });
       data = await res.json();
-      this.chat_input_.value = "";
       data = data.answer;
     } catch (error) {
       console.error("Error:", error);
-      if (res.status == 401) {
+      if (res!.status == 401) {
+        alert("La sesión ha expirado, por favor, introduce de nuevo la clave de la API");
         this.session_controller_.RemoveJwt();
         window.location.href = "/set_api_key";
       }
@@ -151,6 +167,8 @@ class ChatController {
     }
     // activa el botón de enviar mensaje
     this.chat_button_.disabled = false;
+    this.getting_answer_ = false;
+    this.chat_button_.innerHTML = "Enviar";
     return data;
   }
 
@@ -205,6 +223,7 @@ class ChatController {
   private chat_button_: HTMLButtonElement;
   private subject_controller_: SubjectController;
   private session_controller_: SessionController;
+  private getting_answer_: boolean = false;
 }
 
 export { ChatController };
