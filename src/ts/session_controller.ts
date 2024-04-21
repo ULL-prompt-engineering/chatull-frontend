@@ -30,13 +30,6 @@ class SessionController {
   private async setApiKey() {
     // Cambiar el texto del botón a "Cargando..."
     this.session_button_.innerText = "Cargando...";
-    // Verifica si ya existe un JWT en el almacenamiento local
-    const existingJwt = this.GetJwt();
-    if (existingJwt) {
-      // Si ya hay un JWT, redirige al usuario a la página de chat
-      window.location.href = "/chat";
-      return;
-    }
     
     let api_key = this.session_input_.value;
     console.log("api_key", api_key);
@@ -64,7 +57,7 @@ class SessionController {
       .catch((error) => {
         console.error(error);
         alert("Error con la API key, ponga una API key válida y vuelva a intentarlo");
-        this.session_button_.innerText = "Enviar";
+        this.session_button_.innerText = "Registrar API-Key";
       });
   }
 
