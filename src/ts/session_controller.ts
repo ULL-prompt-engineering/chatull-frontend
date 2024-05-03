@@ -32,7 +32,6 @@ class SessionController {
     this.session_button_.innerText = "Cargando...";
     
     let api_key = this.session_input_.value;
-    console.log("api_key", api_key);
 
     let url = API_URL + "/set_api_key";
     // Enviar la API key al servidor para obtener el token JWT

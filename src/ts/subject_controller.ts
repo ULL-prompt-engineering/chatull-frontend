@@ -1,3 +1,5 @@
+let API_URL = import.meta.env.PUBLIC_API_URL;
+
 class SubjectController {
   constructor(subject_selector_tag: string, menu_selector_tag: string, modal_search_tag: string, modal_list_selector_tag: string) {
     this.subject_selector_ = document.querySelector(
@@ -16,10 +18,11 @@ class SubjectController {
     this.Init();
   }
 
-  public Init() {
-    this.LoadSubjects();
+  public async Init() {
+    await this.LoadSubjects();
     this.LoadExistingChatSubjects();
     this.LoadExistingChatSubjectsToLateralMenu();
+    this.LoadSubjectsToModalList();
 
     // cuando modal search cambia de valor
     this.modal_search_.addEventListener("input", () => {
@@ -38,8 +41,9 @@ class SubjectController {
   private async GetSubjectsFromServer(): Promise<string[]> {
     let res;
     let data = [];
+    let url = API_URL + "/documents";
     try {
-      res = await fetch("https://chatull.onrender.com/documents");
+      res = await fetch(url);
       data = await res.json();
       data = data.map((doc: any) => doc.name);
     } catch (error) {
@@ -90,6 +94,9 @@ class SubjectController {
     this.menu_selector_.appendChild(subjectElement);
   }
   private SearchSubject(subject: string) {
+    if (subject === "") {
+      return this.subjects_;
+    }
     return this.subjects_.filter((s) => s.toLowerCase().includes(subject.toLowerCase()));
   }
 
