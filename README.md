@@ -19,8 +19,8 @@ Para comenzar, siga estos pasos:
 
 1. Clone este repositorio:
     ```bash
-    git clone https://github.com/usuario/ChatULL-frontend.git
-    cd ChatULL-frontend
+    git clone https://github.com/ULL-prompt-engineering/chatull-frontend.git
+    cd chatull-frontend
     ```
 
 2. Instale las dependencias utilizando npm:
