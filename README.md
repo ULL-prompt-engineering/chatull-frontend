@@ -37,7 +37,7 @@ npm run dev
 
 El servidor se iniciará y podrá acceder a la aplicación en http://localhost:4321.
 
-##s Contacto
+## Contacto
 Para cualquier duda o consulta, por favor contacta con jonayve.dev@gmail.com
 
 ¡Gracias por utilizar ChatULL!
