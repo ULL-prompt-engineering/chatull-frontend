@@ -1,6 +1,13 @@
 let API_URL = import.meta.env.PUBLIC_API_URL;
 
 class SubjectController {
+  private existing_chat_subjects_: string[] = [];
+  private menu_selector_: HTMLElement;
+  private modal_list_selector_: HTMLUListElement;
+  private modal_search_: HTMLInputElement;
+  private subject_selector_: HTMLInputElement;
+  private subjects_: string[] = [];
+
   constructor(subject_selector_tag: string, menu_selector_tag: string, modal_search_tag: string, modal_list_selector_tag: string) {
     this.subject_selector_ = document.querySelector(
       subject_selector_tag
@@ -18,26 +25,6 @@ class SubjectController {
     this.Init();
   }
 
-  public async Init() {
-    await this.LoadSubjects();
-    this.LoadExistingChatSubjects();
-    this.LoadExistingChatSubjectsToLateralMenu();
-    this.LoadSubjectsToModalList();
-
-    // cuando modal search cambia de valor
-    this.modal_search_.addEventListener("input", () => {
-      this.LoadSubjectsToModalList();
-    });
-  }
-
-  public GetSubjectSelector() {
-    return this.subject_selector_;
-  }
-
-  public GetSelectedSubject() {
-    return this.subject_selector_.value;
-  }
-
   private async GetSubjectsFromServer(): Promise<string[]> {
     let res;
     let data = [];
@@ -50,11 +37,6 @@ class SubjectController {
       console.log(error);
     }
     return data;
-  }
-
-  private async LoadSubjects() {
-    let subjects = await this.GetSubjectsFromServer();
-    this.subjects_ = subjects;
   }
 
   private LoadExistingChatSubjects() {
@@ -79,6 +61,11 @@ class SubjectController {
     });
   }
 
+  private async LoadSubjects() {
+    let subjects = await this.GetSubjectsFromServer();
+    this.subjects_ = subjects;
+  }
+
   private LoadSubjectsToLateralMenu(subject: string) {
     let subjectElement = document.createElement("li");
     let subjectElementAnchor = document.createElement("a");
@@ -92,12 +79,6 @@ class SubjectController {
     let subjectText = subject.replace(/ /g, "_");
     subjectElement.classList.add("cursor-pointer", "hover:bg-gray-200", subjectText);
     this.menu_selector_.appendChild(subjectElement);
-  }
-  private SearchSubject(subject: string) {
-    if (subject === "") {
-      return this.subjects_;
-    }
-    return this.subjects_.filter((s) => s.toLowerCase().includes(subject.toLowerCase()));
   }
 
   private LoadSubjectsToModalList() {
@@ -152,12 +133,32 @@ class SubjectController {
     }
   }
 
-  private subject_selector_: HTMLInputElement;
-  private menu_selector_: HTMLElement;
-  private modal_search_: HTMLInputElement;
-  private modal_list_selector_: HTMLUListElement;
-  private subjects_: string[] = [];
-  private existing_chat_subjects_: string[] = [];
+  private SearchSubject(subject: string) {
+    if (subject === "") {
+      return this.subjects_;
+    }
+    return this.subjects_.filter((s) => s.toLowerCase().includes(subject.toLowerCase()));
+  }
+
+  public GetSelectedSubject() {
+    return this.subject_selector_.value;
+  }
+
+  public GetSubjectSelector() {
+    return this.subject_selector_;
+  }
+
+  public async Init() {
+    await this.LoadSubjects();
+    this.LoadExistingChatSubjects();
+    this.LoadExistingChatSubjectsToLateralMenu();
+    this.LoadSubjectsToModalList();
+
+    // cuando modal search cambia de valor
+    this.modal_search_.addEventListener("input", () => {
+      this.LoadSubjectsToModalList();
+    });
+  }
 }
 
 export { SubjectController };

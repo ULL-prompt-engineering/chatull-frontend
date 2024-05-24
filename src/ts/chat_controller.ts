@@ -5,6 +5,14 @@ import { SubjectController } from "./subject_controller";
 import { SessionController } from "./session_controller";
 
 class ChatController {
+  private chat_button_: HTMLButtonElement;
+  private chat_container_: HTMLElement;
+  private chat_input_: HTMLInputElement;
+  private getting_answer_: boolean = false;
+  private input_div_: HTMLElement;
+  private session_controller_: SessionController;
+  private subject_controller_: SubjectController;
+
   constructor(
     chat_container_tag: string,
     input_div_tag: string,
@@ -41,48 +49,6 @@ class ChatController {
     }
   }
 
-  public Init() {
-    this.chat_button_.addEventListener("click", async () => {
-      if (this.getting_answer_) {
-        return;
-      }
-      let question = this.GetQuestion();
-      if (question == "") {
-        return;
-      }
-      let question_message = new Message(question, true);
-      this.AddMessage(question_message);
-
-      let response: string = await this.GetQuestionAnswer();
-      let response_message = new Message(response, false);
-      this.AddMessage(response_message);
-    });
-
-    let self = this;
-    this.chat_input_.addEventListener("keyup", (event) => {
-      if (event.key === "Enter") {
-        self.chat_button_.click();
-      }
-    });
-
-    this.subject_controller_
-      .GetSubjectSelector()
-      .addEventListener("change", () => {
-        this.LoadChatFromLocalStorage();
-        this.chat_container_.scrollTo({
-          top: this.chat_container_.scrollHeight,
-          behavior: "smooth",
-        });
-        this.RemoveClassToSubjects();
-        this.AddClassToChooseSubject();
-      });
-
-      // esconde el input y carga un mensaje de bienvenida
-      this.input_div_.style.display = "none";
-      let message = new Message("Hola, soy ChatULL, tu asistente virtual.<br>Para comenzar, selecciona una asignatura de las mostradas en el menú de la izquierda, si no te aparece la asignatura que buscas, puedes darle al botón de crear nuevo chat y buscarla.<br><br><b>¡Importante!</b> Como asistente virtual, no guardo contexto de preguntas anteriores, así que para asegurar que las respuestas sean lo más precisas posibles realiza preguntas individuales. Evite formular cuestiones sobre varios apartados de las Guías Docentes o la reglamentación al mismo tiempo.", false);
-      this.AddMessageToChat(message);
-  }
-
   private AddClassToChooseSubject() {
     let actual_subject = this.subject_controller_.GetSelectedSubject();
     let subject = document.querySelector(
@@ -97,20 +63,38 @@ class ChatController {
     }
   }
 
-  private RemoveClassToSubjects() {
-    let subject = document.querySelector(".selected_subject") as HTMLElement;
-    if (subject) {
-      subject.classList.remove("bg-[#a3bcff]", "selected_subject");
+  private AddMessage(message: Message) {
+    this.AddMessageToChat(message);
+    this.AddMessageToLocalStorage(message);
+  }
+
+  private AddMessageToChat(message: Message) {
+    this.chat_container_.appendChild(message.BuildMessage());
+    this.chat_container_.scrollTop = this.chat_container_.scrollHeight;
+  }
+
+  private AddMessageToLocalStorage(message: Message) {
+    let actual_subject = this.subject_controller_.GetSelectedSubject() || "";
+    if (actual_subject == "") {
+      return;
     }
+
+    let chats = JSON.parse(localStorage.getItem("chats") || "{}");
+    if (actual_subject in chats) {
+      chats[actual_subject].push(message);
+    } else {
+      chats[actual_subject] = [message];
+    }
+    localStorage.setItem("chats", JSON.stringify(chats));
+  }
+
+  private ClearQuestion() {
+    this.chat_input_.value = "";
   }
 
   private GetQuestion() {
     let question = this.chat_input_.value;
     return question;
-  }
-
-  private ClearQuestion() {
-    this.chat_input_.value = "";
   }
 
   private async GetQuestionAnswer(): Promise<string> {
@@ -172,31 +156,6 @@ class ChatController {
     return data;
   }
 
-  private AddMessageToChat(message: Message) {
-    this.chat_container_.appendChild(message.BuildMessage());
-    this.chat_container_.scrollTop = this.chat_container_.scrollHeight;
-  }
-
-  private AddMessageToLocalStorage(message: Message) {
-    let actual_subject = this.subject_controller_.GetSelectedSubject() || "";
-    if (actual_subject == "") {
-      return;
-    }
-
-    let chats = JSON.parse(localStorage.getItem("chats") || "{}");
-    if (actual_subject in chats) {
-      chats[actual_subject].push(message);
-    } else {
-      chats[actual_subject] = [message];
-    }
-    localStorage.setItem("chats", JSON.stringify(chats));
-  }
-
-  private AddMessage(message: Message) {
-    this.AddMessageToChat(message);
-    this.AddMessageToLocalStorage(message);
-  }
-
   private LoadChatFromLocalStorage() {
     this.input_div_.style.display = "block";
     this.chat_container_.innerHTML = "";
@@ -217,13 +176,54 @@ class ChatController {
     }
   }
 
-  private chat_container_: HTMLElement;
-  private input_div_: HTMLElement;
-  private chat_input_: HTMLInputElement;
-  private chat_button_: HTMLButtonElement;
-  private subject_controller_: SubjectController;
-  private session_controller_: SessionController;
-  private getting_answer_: boolean = false;
+  private RemoveClassToSubjects() {
+    let subject = document.querySelector(".selected_subject") as HTMLElement;
+    if (subject) {
+      subject.classList.remove("bg-[#a3bcff]", "selected_subject");
+    }
+  }
+
+  public Init() {
+    this.chat_button_.addEventListener("click", async () => {
+      if (this.getting_answer_) {
+        return;
+      }
+      let question = this.GetQuestion();
+      if (question == "") {
+        return;
+      }
+      let question_message = new Message(question, true);
+      this.AddMessage(question_message);
+
+      let response: string = await this.GetQuestionAnswer();
+      let response_message = new Message(response, false);
+      this.AddMessage(response_message);
+    });
+
+    let self = this;
+    this.chat_input_.addEventListener("keyup", (event) => {
+      if (event.key === "Enter") {
+        self.chat_button_.click();
+      }
+    });
+
+    this.subject_controller_
+      .GetSubjectSelector()
+      .addEventListener("change", () => {
+        this.LoadChatFromLocalStorage();
+        this.chat_container_.scrollTo({
+          top: this.chat_container_.scrollHeight,
+          behavior: "smooth",
+        });
+        this.RemoveClassToSubjects();
+        this.AddClassToChooseSubject();
+      });
+
+      // esconde el input y carga un mensaje de bienvenida
+      this.input_div_.style.display = "none";
+      let message = new Message("Hola, soy ChatULL, tu asistente virtual.<br>Para comenzar, selecciona una asignatura de las mostradas en el menú de la izquierda, si no te aparece la asignatura que buscas, puedes darle al botón de crear nuevo chat y buscarla.<br><br><b>¡Importante!</b> Como asistente virtual, no guardo contexto de preguntas anteriores, así que para asegurar que las respuestas sean lo más precisas posibles realiza preguntas individuales. Evite formular cuestiones sobre varios apartados de las Guías Docentes o la reglamentación al mismo tiempo.", false);
+      this.AddMessageToChat(message);
+  }
 }
 
 export { ChatController };

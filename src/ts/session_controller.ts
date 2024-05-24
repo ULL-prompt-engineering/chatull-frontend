@@ -1,6 +1,9 @@
 let API_URL = import.meta.env.PUBLIC_API_URL;
 
 class SessionController {
+  private session_button_: HTMLButtonElement;
+  private session_input_: HTMLInputElement;
+
   constructor(session_input_tag: string = "", session_button_tag: string = "") {
     if (session_input_tag === "" || session_button_tag === "") {
         this.session_input_ = document.createElement("input");
@@ -15,23 +18,12 @@ class SessionController {
     ) as HTMLButtonElement;
   }
 
-  public Init() {
-    this.session_button_.addEventListener("click", () => {
-        this.setApiKey();
-    });
-
-    this.session_input_.addEventListener("keyup", (event) => {
-      if (event.key === "Enter") {
-        this.session_button_.click();
-      }
-    });
-  }
-  
-  private async setApiKey() {
+  private async SetApiKey() {
     // Cambiar el texto del botón a "Cargando..."
     this.session_button_.innerText = "Cargando...";
     
     let api_key = this.session_input_.value;
+    console.log("api_key", api_key);
 
     let url = API_URL + "/set_api_key";
     // Enviar la API key al servidor para obtener el token JWT
@@ -64,16 +56,25 @@ class SessionController {
     return localStorage.getItem("jwt") || "";
   }
 
-  public SetJwtToLocalStorage(jwt: string) {
-    localStorage.setItem("jwt", jwt);
+  public Init() {
+    this.session_button_.addEventListener("click", () => {
+        this.SetApiKey();
+    });
+
+    this.session_input_.addEventListener("keyup", (event) => {
+      if (event.key === "Enter") {
+        this.session_button_.click();
+      }
+    });
   }
 
   public RemoveJwt() {
     localStorage.removeItem("jwt");
   }
 
-  private session_input_: HTMLInputElement;
-  private session_button_: HTMLButtonElement;
+  public SetJwtToLocalStorage(jwt: string) {
+    localStorage.setItem("jwt", jwt);
+  }
 }
 
 export { SessionController };

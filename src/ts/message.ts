@@ -1,15 +1,10 @@
 class Message {
-  constructor(text: string, isQuestion: boolean) {
+  private is_question_: boolean;
+  private text_: string;
+
+  constructor(text: string, is_question: boolean) {
     this.text_ = text;
-    this.is_question_ = isQuestion;
-  }
-
-  public GetText(): string {
-    return this.text_;
-  }
-
-  public IsQuestion(): boolean {
-    return this.is_question_;
+    this.is_question_ = is_question;
   }
 
   public BuildMessage(): HTMLElement {
@@ -31,7 +26,7 @@ class Message {
 
     let role_message = document.createElement("div");
     role_message.setAttribute("class", "role-message p-1 text-white font-bold");
-    role_message.innerHTML = this.is_question_ ? "Tú" : "Chatull";
+    role_message.textContent = this.is_question_ ? "Tú" : "Chatull";
 
     let message = document.createElement("div");
     if (this.is_question_) {
@@ -63,14 +58,23 @@ class Message {
     role_container.appendChild(photo);
     let messageText = document.createElement("div");
     messageText.setAttribute("class", "message text-white rounded-lg");
-    messageText.innerHTML = this.text_;
+    if (this.is_question_) {
+      messageText.textContent = this.text_;
+    } else {
+      messageText.innerHTML = this.text_;
+    }
     message.appendChild(messageText);
     messageContainer.appendChild(message);
     return messageContainer;
   }
 
-  private text_: string;
-  private is_question_: boolean;
+  public GetText(): string {
+    return this.text_;
+  }
+
+  public IsQuestion(): boolean {
+    return this.is_question_;
+  }
 }
 
 export { Message };
