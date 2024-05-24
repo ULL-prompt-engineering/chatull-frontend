@@ -79,7 +79,7 @@ class ChatController {
 
       // esconde el input y carga un mensaje de bienvenida
       this.input_div_.style.display = "none";
-      let message = new Message("Hola, soy ChatULL, tu asistente virtual.<br>Para comenzar, selecciona una asignatura de las mostradas en el menú de la izquierda, si no te aparece la asignatura que buscas, puedes darle al botón de crear nuevo chat y buscarla.", false);
+      let message = new Message("Hola, soy ChatULL, tu asistente virtual.<br>Para comenzar, selecciona una asignatura de las mostradas en el menú de la izquierda, si no te aparece la asignatura que buscas, puedes darle al botón de crear nuevo chat y buscarla.<br><br><b>¡Importante!</b> Como asistente virtual, no guardo contexto de preguntas anteriores, así que para asegurar que las respuestas sean lo más precisas posibles realiza preguntas individuales. Evite formular cuestiones sobre varios apartados de las Guías Docentes o la reglamentación al mismo tiempo.", false);
       this.AddMessageToChat(message);
   }
 
