@@ -1,13 +1,22 @@
-let API_URL = import.meta.env.PUBLIC_API_URL;
+let API_URL = import.meta.env.PUBLIC_API_URL; // URL de la API
 
+// Clase para controlar las asignaturas
 class SubjectController {
-  private existing_chat_subjects_: string[] = [];
-  private menu_selector_: HTMLElement;
-  private modal_list_selector_: HTMLUListElement;
-  private modal_search_: HTMLInputElement;
-  private subject_selector_: HTMLInputElement;
-  private subjects_: string[] = [];
+  private existing_chat_subjects_: string[] = []; // Chats existentes
+  private menu_selector_: HTMLElement; // Selector del menú lateral
+  private modal_list_selector_: HTMLUListElement; // Lista de asignaturas en el modal
+  private modal_search_: HTMLInputElement; // Input de búsqueda de asignaturas
+  private subject_selector_: HTMLInputElement; // Selector de asignaturas
+  private subjects_: string[] = []; // Asignaturas
 
+  /**
+   * Constructor de la clase
+   * @param subject_selector_tag Tag del input de la asignatura
+   * @param menu_selector_tag Tag del selector del menú lateral
+   * @param modal_search_tag Tag del input de búsqueda de asignaturas
+   * @param modal_list_selector_tag Tag de la lista de asignaturas
+   * @returns void
+   */
   constructor(subject_selector_tag: string, menu_selector_tag: string, modal_search_tag: string, modal_list_selector_tag: string) {
     this.subject_selector_ = document.querySelector(
       subject_selector_tag
@@ -25,6 +34,10 @@ class SubjectController {
     this.Init();
   }
 
+  /**
+   * Método para obtener las asignaturas del servidor
+   * @returns Promise<string[]>
+   */
   private async GetSubjectsFromServer(): Promise<string[]> {
     let res;
     let data = [];
@@ -39,11 +52,19 @@ class SubjectController {
     return data;
   }
 
+  /**
+   * Método para cargar los chats existentes
+   * @returns void
+   */
   private LoadExistingChatSubjects() {
     let chats = JSON.parse(localStorage.getItem("chats") || "{}");
     this.existing_chat_subjects_ = Object.keys(chats);
   }
 
+  /**
+   * Método para cargar los chats existentes en el menú lateral
+   * @returns void
+   */
   private LoadExistingChatSubjectsToLateralMenu() {
     let newChatButton = document.createElement("label");
     newChatButton.textContent = "Crear nuevo chat";
@@ -61,11 +82,20 @@ class SubjectController {
     });
   }
 
+  /**
+   * Método para cargar las asignaturas
+   * @returns void
+   */
   private async LoadSubjects() {
     let subjects = await this.GetSubjectsFromServer();
     this.subjects_ = subjects;
   }
 
+  /**
+   * Método para carga una asignatura en el menú lateral
+   * @param subject Asignatura
+   * @returns void
+   */
   private LoadSubjectsToLateralMenu(subject: string) {
     let subjectElement = document.createElement("li");
     let subjectElementAnchor = document.createElement("a");
@@ -81,6 +111,10 @@ class SubjectController {
     this.menu_selector_.appendChild(subjectElement);
   }
 
+  /**
+   * Método para cargar las asignaturas en el modal
+   * @returns void
+   */
   private LoadSubjectsToModalList() {
     this.modal_list_selector_.innerHTML = "";
     let subjects = this.SearchSubject(this.modal_search_.value || "");
@@ -133,6 +167,11 @@ class SubjectController {
     }
   }
 
+  /**
+   * Método para buscar asignaturas
+   * @param subject Asignatura
+   * @returns string[]
+   */
   private SearchSubject(subject: string) {
     if (subject === "") {
       return this.subjects_;
@@ -140,14 +179,26 @@ class SubjectController {
     return this.subjects_.filter((s) => s.toLowerCase().includes(subject.toLowerCase()));
   }
 
+  /**
+   * Método para obtener la asignatura seleccionada
+   * @returns void
+   */
   public GetSelectedSubject() {
     return this.subject_selector_.value;
   }
 
+  /**
+   * Método para obtener el selector de asignaturas
+   * @returns HTMLInputElement
+   */
   public GetSubjectSelector() {
     return this.subject_selector_;
   }
 
+  /**
+   * Método para inicializar la clase
+   * @returns void
+   */
   public async Init() {
     await this.LoadSubjects();
     this.LoadExistingChatSubjects();

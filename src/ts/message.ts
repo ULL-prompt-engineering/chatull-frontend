@@ -1,12 +1,23 @@
+// Clase para representar un mensaje en el chat
 class Message {
-  private is_question_: boolean;
-  private text_: string;
+  private is_question_: boolean; // true si es una pregunta, false si es una respuesta
+  private text_: string; // Texto del mensaje
 
+  /**
+   * Constructor de la clase
+   * @param text Texto del mensaje
+   * @param is_question true si es una pregunta, false si es una respuesta
+   * @returns void
+   */
   constructor(text: string, is_question: boolean) {
     this.text_ = text;
     this.is_question_ = is_question;
   }
 
+  /**
+   * Método para construir un mensaje
+   * @returns HTMLElement
+   */
   public BuildMessage(): HTMLElement {
     let messageContainer = document.createElement("div");
     if (this.is_question_) {
@@ -68,10 +79,18 @@ class Message {
     return messageContainer;
   }
 
+  /**
+   * Método para obtener el texto del mensaje
+   * @returns string
+   */
   public GetText(): string {
     return this.text_;
   }
 
+  /**
+   * Método para saber si el mensaje es una pregunta
+   * @returns boolean
+   */
   public IsQuestion(): boolean {
     return this.is_question_;
   }

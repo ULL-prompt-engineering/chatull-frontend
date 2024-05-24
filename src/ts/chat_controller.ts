@@ -1,18 +1,31 @@
-let API_URL = import.meta.env.PUBLIC_API_URL;
+let API_URL = import.meta.env.PUBLIC_API_URL; // URL de la API
 
 import { Message } from "./message";
 import { SubjectController } from "./subject_controller";
 import { SessionController } from "./session_controller";
 
+// Clase para controlar el chat
 class ChatController {
-  private chat_button_: HTMLButtonElement;
-  private chat_container_: HTMLElement;
-  private chat_input_: HTMLInputElement;
-  private getting_answer_: boolean = false;
-  private input_div_: HTMLElement;
-  private session_controller_: SessionController;
-  private subject_controller_: SubjectController;
+  private chat_button_: HTMLButtonElement; // Botón de enviar mensaje
+  private chat_container_: HTMLElement; // Contenedor del chat
+  private chat_input_: HTMLInputElement; // Input del chat
+  private getting_answer_: boolean = false; // Variable para controlar si se está obteniendo una respuesta
+  private input_div_: HTMLElement; // Div del input
+  private session_controller_: SessionController; // Controlador de la sesión
+  private subject_controller_: SubjectController; // Controlador de las asignaturas
 
+  /**
+   * Constructor de la clase
+   * @param chat_container_tag Tag del contenedor del chat
+   * @param input_div_tag Tag del div del input
+   * @param chat_input_tag Tag del input del chat
+   * @param chat_button_tag Tag del botón de enviar mensaje
+   * @param subject_selector_tag Tag del selector de asignaturas
+   * @param menu_selector_tag Tag del selector del menú
+   * @param modal_search_tag Tag del input de búsqueda del modal
+   * @param modal_list_selector_tag Tag del selector de la lista del modal
+   * @returns void
+   */
   constructor(
     chat_container_tag: string,
     input_div_tag: string,
@@ -49,6 +62,10 @@ class ChatController {
     }
   }
 
+  /**
+   * Método para añadir la clase a la asignatura seleccionada
+   * @returns void
+   */
   private AddClassToChooseSubject() {
     let actual_subject = this.subject_controller_.GetSelectedSubject();
     let subject = document.querySelector(
@@ -63,16 +80,28 @@ class ChatController {
     }
   }
 
+  /**
+   * Método para añadir un mensaje al chat
+   * @param message Mensaje a añadir
+   */
   private AddMessage(message: Message) {
     this.AddMessageToChat(message);
     this.AddMessageToLocalStorage(message);
   }
 
+  /**
+   * Método para añadir un mensaje al chat en el DOM
+   * @param message Mensaje a añadir
+   */
   private AddMessageToChat(message: Message) {
     this.chat_container_.appendChild(message.BuildMessage());
     this.chat_container_.scrollTop = this.chat_container_.scrollHeight;
   }
 
+  /**
+   * Método para añadir un mensaje al almacenamiento local
+   * @param message Mensaje a añadir
+   */
   private AddMessageToLocalStorage(message: Message) {
     let actual_subject = this.subject_controller_.GetSelectedSubject() || "";
     if (actual_subject == "") {
@@ -88,15 +117,27 @@ class ChatController {
     localStorage.setItem("chats", JSON.stringify(chats));
   }
 
+  /**
+   * Método para limpiar el input del chat
+   * @returns void
+   */
   private ClearQuestion() {
     this.chat_input_.value = "";
   }
 
+  /**
+   * Método para obtener la pregunta del chat
+   * @returns string
+   */
   private GetQuestion() {
     let question = this.chat_input_.value;
     return question;
   }
 
+  /**
+   * Método para obtener la respuesta a la pregunta del chat
+   * @returns Promise<string>
+   */
   private async GetQuestionAnswer(): Promise<string> {
     // Desactiva el botón de enviar mensaje mientras se obtiene la respuesta y ponemos este
     // <span class="loading loading-spinner loading-sm"></span> en el botón
@@ -156,6 +197,10 @@ class ChatController {
     return data;
   }
 
+  /**
+   * Método para cargar el chat desde el almacenamiento local
+   * @returns void
+   */
   private LoadChatFromLocalStorage() {
     this.input_div_.style.display = "block";
     this.chat_container_.innerHTML = "";
